@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sejal's Music Collection - Part 3</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #373B44, #4286f4);
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #4df0ff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .search-box {
+            margin: 20px 0;
+            padding: 15px;
+            width: 100%;
+            max-width: 500px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .songs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .song-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            transition: transform 0.3s ease, background 0.3s ease;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .song-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .song-title {
+            font-weight: bold;
+            color: #ff7eb9;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        audio {
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 30px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        audio::-webkit-media-controls-panel {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        @media (max-width: 768px) {
+            .songs-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 Sejal's Music Collection - Part 3</h1>
+            <p>Enjoy even more of your favorite Bollywood songs!</p>
+            <input type="text" id="searchInput" class="search-box" placeholder="Search for songs..." onkeyup="searchSongs()">
+        </header>
+        
+        <div class="songs-grid" id="songsContainer">
+            <!-- Songs will be dynamically added here -->
+        </div>
+        
+        <div class="footer">
+            <p>Created with ❤️ by Sejal | Hosted on GitHub Pages</p>
+        </div>
+    </div>
+
+    <script>
+        // Your songs list for my-music-3
+        const songs = [
+            "Raaz Aankhein Teri.mp3",
+            "Rab Ka Shukrana.mp3",
+            "Radha Nachegi.mp3",
+            "Raja Ko Rani Se.mp3",
+            "Ram Chahe Leela.mp3",
+            "Rap Ka Mausam.mp3",
+            "Rasiya.mp3",
+            "Rim Jhim.mp3",
+            "Roi Na Je Yaad Meri Aayi Ve Roi na.mp3",
+            "Rote Hue Aate Hain.mp3",
+            "Rusya Na Kar.mp3",
+            "Saagar Jaisi Aankhon Wali.mp3",
+            "Saami Saami Hindi.mp3",
+            "Saans.mp3",
+            "Saanson Ke.mp3",
+            "Saanson Ko.mp3",
+            "Saaton Janam Main Tere Dilwale.mp3",
+            "Saaton Janam Main Tere.mp3",
+            "Saawan Bairi.mp3",
+            "Sab Tera.mp3",
+            "Sagar Jaisi Aankhon Wali.mp3",
+            "Sagar Sung Kinare Hain.mp3",
+            "Saiyaara.mp3",
+            "Salamat.mp3",
+            "Samajh Kar Chand Jis Ko.mp3",
+            "Sanam Re.mp3",
+            "Sanam Teri Kasam.mp3",
+            "Sandeshe Aate Hain.mp3",
+            "Sanu Kehndi.mp3",
+            "Sawan Aaya Hai.mp3",
+            "Second Hand Jawaani.mp3",
+            "Seenay Par Rakh Kar Sar Ko.mp3",
+            "Selfie Le Le Re.mp3",
+            "Shayad Meri Shadi Ka Khayal.mp3",
+            "Shayad Tu Mujhse Pyar Karti Hai.mp3",
+            "Shayad.mp3",
+            "Shikwa Nahin Kisi Se.mp3",
+            "Shivam.mp3",
+            "So Gaya Yeh Jahan.mp3",
+            "Soch Liya.mp3",
+            "Soch Na Sake.mp3",
+            "Soch.mp3",
+            "Soja Zara.mp3",
+            "Sona Kitna Sona Hai.mp3",
+            "Speaker Phat Jaaye.mp3",
+            "Srivalli.mp3",
+            "Stay.mp3",
+            "Stop That.mp3",
+            "Subhan Allah.mp3",
+            "Sun Saathiya.mp3",
+            "Sun Sun Sun Barsaat Ki Dhun Sun.mp3",
+            "Suna Hai Tere Dil Pe Mera Kahin Na Kahin Naam Hai Likha.mp3",
+            "Suna Hai.mp3",
+            "Suniye To Rukiye To Kyon Hain Kafaa.mp3",
+            "Sunn Raha Hai.mp3",
+            "Superman.mp3",
+            "Tabaah Ho Gaye.mp3",
+            "Tabah.mp3",
+            "Tanhaai.mp3",
+            "Tarasti Hai Nigahen.mp3",
+            "Tarif Kya Karoon.mp3",
+            "Tauba Ye Matwali Chaal.mp3",
+            "Tera Baap Aaya.mp3",
+            "Tera Chehra.mp3",
+            "Tera Hua.mp3",
+            "Tera Saath Hai Kitna Pyaara.mp3",
+            "Tera Sath Hai Kitna.mp3",
+            "Tera nam dil rakh diya.mp3",
+            "Tere Bin Jiya Na Jaye.mp3",
+            "Tere Bin Nahi Laage.mp3",
+            "Tere Bina Jeena Bhi Hai Kya Jeena.mp3",
+            "Tere Dar Pe Sanam.mp3",
+            "Tere Dard Se Dil.mp3",
+            "Tere Jism 2.mp3",
+            "Tere Liye.mp3",
+            "Tere Mast Mast Do Nain.mp3",
+            "Tere Naam Female.mp3",
+            "Tere Naam.mp3",
+            "Tere Nalo Chaliye Haseen Koi Na.mp3",
+            "Tere Siva Jag Mein.mp3",
+            "Teri Galiyon Mein Na Rakhein.mp3",
+            "Teri Issi Aada Pe Sanam.mp3",
+            "Teri Khushboo.mp3",
+            "Teri Meri Kahaani.mp3",
+            "Teri Saanson Mein.mp3",
+            "Teri Umeed Tera Intezaar.mp3",
+            "Teri Ungali Pakad Ke Chala.mp3",
+            "Teri Yaad Yaad Yaad.mp3",
+            "Teri Yaad.mp3",
+            "Teri Yaadon Se.mp3",
+            "Terre Pyaar Mein.mp3",
+            "The Breakup Song.mp3",
+            "The Monster.mp3",
+            "Thehro To Sahi.mp3",
+            "Theme of Dilwale.mp3",
+            "Thoda Thoda Pyaar Hua Tumse.mp3",
+            "Thodi Der.mp3",
+            "Tip Tip Barsa.mp3",
+            "saaho.mp3",
+            "teri meri kahani.mp3"
+        ];
+
+        // Function to display songs
+        function displaySongs(songsList) {
+            const container = document.getElementById('songsContainer');
+            container.innerHTML = '';
+            
+            songsList.forEach(song => {
+                const songCard = document.createElement('div');
+                songCard.className = 'song-card';
+                
+                const songTitle = document.createElement('div');
+                songTitle.className = 'song-title';
+                songTitle.textContent = song.replace('.mp3', '');
+                
+                const audioPlayer = document.createElement('audio');
+                audioPlayer.controls = true;
+                audioPlayer.src = `music/${song}`;
+                audioPlayer.preload = 'metadata';
+                
+                songCard.appendChild(songTitle);
+                songCard.appendChild(audioPlayer);
+                container.appendChild(songCard);
+            });
+        }
+
+        // Function to search songs
+        function searchSongs() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            const filteredSongs = songs.filter(song => 
+                song.toLowerCase().includes(searchText)
+            );
+            displaySongs(filteredSongs);
+        }
+
+        // Initial display of all songs
+        displaySongs(songs);
+    </script>
+</body>
+</html>
